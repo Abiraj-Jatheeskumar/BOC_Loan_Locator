@@ -80,9 +80,15 @@ function App() {
               className="logo-image"
             />
           </div>
-          <div className="header-bottom">
+          <div className="header-middle">
             <h1 className="system-title">Loan File Locator System</h1>
             <p className="system-subtitle">Quick access to loan file locations and customer information</p>
+          </div>
+          <div className="header-right">
+            <div className="branch-info">
+              <span className="branch-icon">📍</span>
+              <span>BOC - Vaddukoddai, Jaffna</span>
+            </div>
           </div>
         </div>
       </header>
