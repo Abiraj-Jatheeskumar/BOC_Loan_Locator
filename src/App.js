@@ -72,95 +72,172 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>🏦 Loan Locator</h1>
-        <p className="subtitle">Find loan file locations quickly</p>
+        <div className="header-content">
+          <div className="logo-section">
+            <div className="boc-logo">
+              <img
+                src="/boc-logo.png"
+                alt="Bank of Ceylon Logo"
+                className="logo-image"
+              />
+              <div className="logo-text">
+                <p className="subtitle">Loan File Locator System</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </header>
 
       <main className="App-main">
         <div className="search-container">
+          <div className="search-header">
+            <h2>Find Your Loan File</h2>
+            <p>Enter the loan file number to locate the physical file box and customer details</p>
+          </div>
+
           <div className="input-group">
             <label htmlFor="loan-input" className="input-label">
+              <span className="label-icon">📋</span>
               Loan File Number
             </label>
-            <input
-              id="loan-input"
-              type="text"
-              className="loan-input"
-              placeholder="Enter loan number (e.g., 76152020)"
-              value={loanNumber}
-              onChange={(e) => setLoanNumber(e.target.value)}
-              onKeyPress={handleKeyPress}
-              aria-label="Loan file number input"
-              autoFocus
-            />
+            <div className="input-wrapper">
+              <input
+                id="loan-input"
+                type="text"
+                className="loan-input"
+                placeholder="Enter loan number (e.g., 76152020)"
+                value={loanNumber}
+                onChange={(e) => setLoanNumber(e.target.value)}
+                onKeyPress={handleKeyPress}
+                aria-label="Loan file number input"
+                autoFocus
+              />
+              <button
+                className="search-button"
+                onClick={handleSearch}
+                aria-label="Search for loan"
+              >
+                <span className="button-icon">🔍</span>
+                Search
+              </button>
+            </div>
           </div>
-          <button 
-            className="search-button" 
-            onClick={handleSearch}
-            aria-label="Search for loan"
-          >
-            Search
-          </button>
         </div>
 
         {error && (
           <div className="error-message" role="alert">
-            ⚠️ {error}
+            <span className="error-icon">⚠️</span>
+            <span>{error}</span>
           </div>
         )}
 
         {result && (
           <div className="result-panel" role="region" aria-label="Search results">
-            <h2>Search Results</h2>
-            
-            <div className="result-item">
-              <span className="result-label">Loan Number:</span>
-              <span className="result-value">{result.loanNumber}</span>
-            </div>
-
-            <div className="result-item">
-              <span className="result-label">Customer Name:</span>
-              <span className="result-value">
-                {result.customerName ? (
-                  result.customerName
+            <div className="result-header">
+              <h2>Search Results</h2>
+              <div className="result-status">
+                {result.location && result.customerName ? (
+                  <span className="status-badge success">✓ Found</span>
                 ) : (
-                  <span className="not-found">Name not found</span>
+                  <span className="status-badge partial">⚠ Partial</span>
                 )}
-              </span>
+              </div>
             </div>
 
-            <div className="result-item">
-              <span className="result-label">Location:</span>
-              <span className="result-value">
-                {result.location ? (
-                  <span className="location-badge">{result.location}</span>
-                ) : (
-                  <span className="not-found">
-                    {result.customerName 
-                      ? 'Location not found (check ranges)' 
-                      : 'Location not found'}
+            <div className="result-grid">
+              <div className="result-card">
+                <div className="card-icon">📄</div>
+                <div className="card-content">
+                  <span className="card-label">Loan Number</span>
+                  <span className="card-value">{result.loanNumber.toLocaleString()}</span>
+                </div>
+              </div>
+
+              <div className="result-card">
+                <div className="card-icon">👤</div>
+                <div className="card-content">
+                  <span className="card-label">Customer Name</span>
+                  <span className="card-value">
+                    {result.customerName ? (
+                      result.customerName
+                    ) : (
+                      <span className="not-found">Name not found</span>
+                    )}
                   </span>
-                )}
-              </span>
+                </div>
+              </div>
+
+              <div className="result-card highlight">
+                <div className="card-icon">📦</div>
+                <div className="card-content">
+                  <span className="card-label">File Location</span>
+                  <span className="card-value">
+                    {result.location ? (
+                      <span className="location-badge">{result.location}</span>
+                    ) : (
+                      <span className="not-found">
+                        {result.customerName
+                          ? 'Location not found (check ranges)'
+                          : 'Location not found'}
+                      </span>
+                    )}
+                  </span>
+                </div>
+              </div>
             </div>
 
             <div className="result-footer">
-              <small>Last updated: {new Date(result.lastUpdated).toLocaleString()}</small>
+              <small>
+                <span className="footer-icon">🕒</span>
+                Last updated: {new Date(result.lastUpdated).toLocaleString()}
+              </small>
             </div>
           </div>
         )}
 
         {!result && !error && (
           <div className="info-panel">
-            <p>Enter a loan file number above to find its location and customer information.</p>
-            <div className="stats">
-              <div className="stat-item">
-                <strong>{rangesData.length}</strong>
-                <span>Boxes</span>
+            <div className="info-header">
+              <h3>Welcome to the Loan File Locator</h3>
+              <p>Quickly find the physical location of any loan file in our archive</p>
+            </div>
+
+            <div className="stats-grid">
+              <div className="stat-card">
+                <div className="stat-icon">📦</div>
+                <div className="stat-content">
+                  <strong>{rangesData.length}</strong>
+                  <span>Storage Boxes</span>
+                </div>
               </div>
-              <div className="stat-item">
-                <strong>{loansData.length}</strong>
-                <span>Loans</span>
+              <div className="stat-card">
+                <div className="stat-icon">📋</div>
+                <div className="stat-content">
+                  <strong>{loansData.length.toLocaleString()}</strong>
+                  <span>Loan Records</span>
+                </div>
+              </div>
+              <div className="stat-card">
+                <div className="stat-icon">⚡</div>
+                <div className="stat-content">
+                  <strong>&lt; 1ms</strong>
+                  <span>Search Time</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="info-features">
+              <div className="feature">
+                <span className="feature-icon">✓</span>
+                <span>Instant search results</span>
+              </div>
+              <div className="feature">
+                <span className="feature-icon">✓</span>
+                <span>Accurate file locations</span>
+              </div>
+              <div className="feature">
+                <span className="feature-icon">✓</span>
+                <span>Customer information</span>
               </div>
             </div>
           </div>
@@ -168,7 +245,10 @@ function App() {
       </main>
 
       <footer className="App-footer">
-        <p>Bank of Ceylon - Loan File Management System</p>
+        <div className="footer-content">
+          <p>© 2025 Bank of Ceylon. All rights reserved.</p>
+          <p className="footer-tagline">Trusted Banking Since 1939</p>
+        </div>
       </footer>
     </div>
   );
