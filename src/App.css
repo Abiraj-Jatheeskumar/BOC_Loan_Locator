@@ -53,11 +53,209 @@ body {
   margin-bottom: 1.25rem;
 }
 
-.logo-image {
-  height: 120px;
-  width: auto;
-  object-fit: contain;
-  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.1));
+/* Animated SVG Logo */
+.animated-logo {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+}
+
+.boc-svg-logo {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1));
+}
+
+/* Logo Text Styles */
+.logo-text-top {
+  font-family: 'Arial', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  fill: #000000;
+  letter-spacing: 2px;
+  animation: fadeInDown 0.8s ease-out;
+}
+
+.logo-text-bottom {
+  font-family: 'Arial', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  fill: #000000;
+  letter-spacing: 1px;
+  animation: fadeInUp 0.8s ease-out 0.3s backwards;
+}
+
+/* BOC Letters Animation */
+.boc-letters {
+  animation: scaleIn 0.6s ease-out 0.2s backwards;
+}
+
+.letter-b {
+  animation: slideInLeft 0.6s ease-out 0.4s backwards;
+  transition: all 0.3s ease;
+}
+
+.letter-o {
+  animation: bounceIn 0.8s ease-out 0.5s backwards;
+  transition: all 0.3s ease;
+}
+
+.letter-c {
+  animation: slideInRight 0.6s ease-out 0.4s backwards;
+  transition: all 0.3s ease;
+}
+
+.letter-text {
+  font-family: 'Arial Black', sans-serif;
+  font-size: 48px;
+  font-weight: 900;
+  fill: #003DA5;
+  pointer-events: none;
+}
+
+/* Emblem Animation */
+.emblem-circle {
+  animation: rotateIn 0.8s ease-out 0.6s backwards;
+}
+
+.emblem-inner {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.emblem-symbol {
+  animation: fadeIn 0.6s ease-out 0.8s backwards;
+}
+
+/* Hover Effects */
+.boc-svg-logo:hover .letter-b,
+.boc-svg-logo:hover .letter-c {
+  transform: translateY(-3px);
+  filter: brightness(1.1);
+}
+
+.boc-svg-logo:hover .letter-o {
+  transform: scale(1.05);
+}
+
+.boc-svg-logo:hover .emblem-inner {
+  animation: pulse 0.8s ease-in-out infinite;
+}
+
+/* Keyframe Animations */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+
+  50% {
+    transform: scale(1.05);
+  }
+
+  70% {
+    transform: scale(0.9);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes rotateIn {
+  from {
+    opacity: 0;
+    transform: rotate(-180deg) scale(0);
+  }
+
+  to {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+  }
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(1.08);
+    opacity: 0.9;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 .header-bottom {
@@ -476,8 +674,20 @@ body {
     padding: 1.5rem 1rem 1rem 1rem;
   }
 
-  .logo-image {
-    height: 90px;
+  .animated-logo {
+    max-width: 320px;
+  }
+
+  .logo-text-top {
+    font-size: 13px;
+  }
+
+  .logo-text-bottom {
+    font-size: 11px;
+  }
+
+  .letter-text {
+    font-size: 38px;
   }
 
   .system-title {
