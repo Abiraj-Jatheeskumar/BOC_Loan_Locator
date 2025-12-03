@@ -36,10 +36,10 @@ body {
 
 /* Header Styles */
 .App-header {
-  background: var(--boc-white);
-  padding: 1.25rem 2rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  border-bottom: 4px solid var(--boc-gold);
+  background: linear-gradient(180deg, var(--boc-white) 0%, #F8FAFC 100%);
+  padding: 2rem 2rem 1.5rem 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border-bottom: 5px solid var(--boc-gold);
 }
 
 .header-content {
@@ -47,35 +47,38 @@ body {
   margin: 0 auto;
 }
 
-.logo-section {
+.header-top {
   display: flex;
-  align-items: center;
   justify-content: center;
-}
-
-.boc-logo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
+  margin-bottom: 1.25rem;
 }
 
 .logo-image {
-  height: 80px;
+  height: 120px;
   width: auto;
   object-fit: contain;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.1));
 }
 
-.logo-text {
+.header-bottom {
   text-align: center;
+  border-top: 2px solid var(--boc-border);
+  padding-top: 1rem;
 }
 
-.logo-text h1 {
+.system-title {
   font-size: 1.75rem;
   color: var(--boc-blue);
   font-weight: 700;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.5rem;
   letter-spacing: -0.5px;
+}
+
+.system-subtitle {
+  color: var(--boc-dark-gray);
+  font-size: 1rem;
+  font-weight: 400;
+  margin: 0;
 }
 
 .subtitle {
@@ -470,19 +473,19 @@ body {
 /* Responsive Design */
 @media (max-width: 768px) {
   .App-header {
-    padding: 1rem;
+    padding: 1.5rem 1rem 1rem 1rem;
   }
 
   .logo-image {
-    height: 60px;
+    height: 90px;
   }
 
-  .logo-text h1 {
+  .system-title {
     font-size: 1.4rem;
   }
 
-  .subtitle {
-    font-size: 0.85rem;
+  .system-subtitle {
+    font-size: 0.9rem;
   }
 
   .search-container,

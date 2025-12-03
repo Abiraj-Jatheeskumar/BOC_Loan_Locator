@@ -73,17 +73,16 @@ function App() {
     <div className="App">
       <header className="App-header">
         <div className="header-content">
-          <div className="logo-section">
-            <div className="boc-logo">
-              <img
-                src="/boc-logo.png"
-                alt="Bank of Ceylon Logo"
-                className="logo-image"
-              />
-              <div className="logo-text">
-                <p className="subtitle">Loan File Locator System</p>
-              </div>
-            </div>
+          <div className="header-top">
+            <img
+              src="/boc-logo.png"
+              alt="Bank of Ceylon Logo"
+              className="logo-image"
+            />
+          </div>
+          <div className="header-bottom">
+            <h1 className="system-title">Loan File Locator System</h1>
+            <p className="system-subtitle">Quick access to loan file locations and customer information</p>
           </div>
         </div>
       </header>
