@@ -1,70 +1,198 @@
-# Getting Started with Create React App
+# Loan Locator
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A production-ready React single-page application for Bank of Ceylon staff to quickly locate loan files by entering a loan number. The app displays the Box/Folder location and customer name instantly.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- 🔍 **Fast Lookup**: O(1) customer name lookup using Map data structure
+- 📦 **Range-Based Location**: Automatically determines Box location from loan number ranges
+- ✅ **Input Validation**: Accepts only numeric loan numbers with helpful error messages
+- ♿ **Accessible**: Built with ARIA labels and semantic HTML
+- 📱 **Responsive**: Works on desktop, tablet, and mobile devices
+- 🎨 **Modern UI**: Clean, professional interface with smooth animations
 
-### `npm start`
+## Data
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **28 Boxes** containing loan files
+- **556 Loan records** with customer names
+- Last updated: 2025-12-03
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Quick Start
 
-### `npm test`
+### Prerequisites
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Node.js 14+ and npm
 
-### `npm run build`
+### Installation
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+# Clone or download the project
+cd loan-locator
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+# Install dependencies
+npm install
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+# Start development server
+npm start
+```
 
-### `npm run eject`
+The app will open at [http://localhost:3000](http://localhost:3000)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Build for Production
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```bash
+npm run build
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+This creates an optimized production build in the `build/` folder.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Usage
 
-## Learn More
+1. Enter a loan file number in the input field
+2. Click "Search" or press Enter
+3. View the results:
+   - Loan Number
+   - Customer Name (or "Name not found")
+   - Box Location (or "Location not found")
+   - Last updated timestamp
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Project Structure
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```
+loan-locator/
+├── public/
+│   └── index.html
+├── src/
+│   ├── data/
+│   │   ├── ranges.json      # Box ranges (28 boxes)
+│   │   └── loans.json        # Loan-to-customer mapping (556 records)
+│   ├── App.js                # Main application component
+│   ├── App.css               # Application styles
+│   ├── index.js              # React entry point
+│   └── index.css             # Global styles
+├── package.json
+├── test-data.md              # Test cases and validation
+└── README.md                 # This file
+```
 
-### Code Splitting
+## Deploying to Vercel
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Step 1: Push to GitHub
 
-### Analyzing the Bundle Size
+```bash
+# Initialize git (if not already done)
+git init
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+# Add all files
+git add .
 
-### Making a Progressive Web App
+# Commit
+git commit -m "Initial commit: Loan Locator app"
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+# Add remote repository (replace with your GitHub repo URL)
+git remote add origin https://github.com/YOUR_USERNAME/loan-locator.git
 
-### Advanced Configuration
+# Push to GitHub
+git push -u origin main
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### Step 2: Deploy to Vercel
 
-### Deployment
+1. Go to [vercel.com](https://vercel.com) and sign in with GitHub
+2. Click "New Project"
+3. Import your `loan-locator` repository
+4. Configure project:
+   - **Framework Preset**: Create React App
+   - **Build Command**: `npm run build` (default)
+   - **Output Directory**: `build` (default)
+   - **Install Command**: `npm install` (default)
+5. Click "Deploy"
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Your app will be live at `https://loan-locator.vercel.app` (or similar)
 
-### `npm run build` fails to minify
+### Step 3: Update Data Files
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+When you need to update the loan data:
+
+1. Update `src/data/ranges.json` and/or `src/data/loans.json`
+2. Update the `lastUpdated` timestamp in `src/App.js` (line 19)
+3. Commit and push changes:
+   ```bash
+   git add src/data/
+   git commit -m "Update loan data"
+   git push
+   ```
+4. Vercel will automatically redeploy with the new data
+
+## Data File Formats
+
+### ranges.json
+```json
+[
+  {
+    "start": 76152020,
+    "end": 79855699,
+    "location": "Box 1"
+  }
+]
+```
+
+### loans.json
+```json
+[
+  {
+    "loan": 76152020,
+    "name": "N ABIRAMI"
+  }
+]
+```
+
+## Testing
+
+See `test-data.md` for comprehensive test cases including:
+- Valid loans with both name and location
+- Loans in range but without customer data
+- Loans outside all ranges
+- Invalid input validation
+- Edge cases
+
+## Browser Support
+
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
+
+## Security & Privacy
+
+- All data is stored locally in JSON files
+- No external API calls
+- No user data collection
+- Client-side only processing
+
+## Performance
+
+- **O(1)** customer name lookup using JavaScript Map
+- **O(n)** location lookup (linear search through 28 ranges)
+- Typical search time: < 1ms
+
+## Future Enhancements
+
+- Binary search for range lookup (O(log n))
+- Export search results to CSV
+- Search history
+- Bulk lookup from CSV file
+- Admin panel for data management
+- Automated tests with Jest and React Testing Library
+
+## License
+
+Proprietary - Bank of Ceylon
+
+## Support
+
+For issues or questions, contact the IT department.
+
+---
+
+**Built with React** | **Last Updated: December 2025**
