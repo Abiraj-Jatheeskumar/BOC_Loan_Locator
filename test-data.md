@@ -71,7 +71,7 @@ Based on the extracted data, here are 5 test cases to verify the application:
 
 ## Data Statistics
 
-- **Total Ranges:** 28 boxes
+- **Total Ranges:** 32 boxes
 - **Total Loans:** 556 customer records
 - **Range Coverage:** 76152020 to 87713991 (approximate)
 

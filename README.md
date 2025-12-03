@@ -13,7 +13,7 @@ A production-ready React single-page application for Bank of Ceylon staff to qui
 
 ## Data
 
-- **28 Boxes** containing loan files
+- **32 Boxes** containing loan files
 - **556 Loan records** with customer names
 - Last updated: 2025-12-03
 
@@ -64,7 +64,7 @@ loan-locator/
 │   └── index.html
 ├── src/
 │   ├── data/
-│   │   ├── ranges.json      # Box ranges (28 boxes)
+│   │   ├── ranges.json      # Box ranges (32 boxes)
 │   │   └── loans.json        # Loan-to-customer mapping (556 records)
 │   ├── App.js                # Main application component
 │   ├── App.css               # Application styles
@@ -173,7 +173,7 @@ See `test-data.md` for comprehensive test cases including:
 ## Performance
 
 - **O(1)** customer name lookup using JavaScript Map
-- **O(n)** location lookup (linear search through 28 ranges)
+- **O(n)** location lookup (linear search through 32 ranges)
 - Typical search time: < 1ms
 
 ## Future Enhancements
