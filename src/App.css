@@ -86,27 +86,92 @@ body {
   align-items: center;
 }
 
-/* Logo Image */
-.logo-image {
-  height: 110px;
-  width: auto;
-  object-fit: contain;
-  filter: drop-shadow(0 3px 10px rgba(253, 198, 13, 0.5));
-  transition: all 0.4s ease;
-  animation: logoGlow 3s ease-in-out infinite;
+/* System Logo */
+.system-logo {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
 }
 
-.logo-image:hover {
-  transform: scale(1.08) rotate(2deg);
-  filter: drop-shadow(0 8px 20px rgba(253, 198, 13, 0.8));
+.system-logo:hover {
+  transform: scale(1.05);
+}
+
+.logo-icon {
+  width: 65px;
+  height: 65px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--boc-yellow) 0%, var(--boc-dark-yellow) 100%);
+  border-radius: 16px;
+  font-size: 2.2rem;
+  box-shadow: 
+    0 4px 15px rgba(253, 198, 13, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  position: relative;
+  z-index: 2;
+  animation: logoGlow 3s ease-in-out infinite;
+  border: 3px solid var(--boc-black);
+  transition: all 0.4s ease;
+}
+
+.system-logo:hover .logo-icon {
+  transform: rotate(5deg);
+  box-shadow: 
+    0 8px 25px rgba(253, 198, 13, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.logo-text {
+  background: var(--boc-black);
+  color: var(--boc-yellow);
+  padding: 1.2rem 1.5rem 1.2rem 2rem;
+  margin-left: -10px;
+  border-radius: 0 12px 12px 0;
+  font-size: 1.5rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 1;
+  transition: all 0.4s ease;
+  border: 3px solid var(--boc-black);
+  border-left: none;
+}
+
+.logo-text::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, transparent 0%, rgba(253, 198, 13, 0.1) 100%);
+  border-radius: 0 9px 9px 0;
+  pointer-events: none;
+}
+
+.system-logo:hover .logo-text {
+  color: var(--boc-white);
+  background: linear-gradient(135deg, var(--boc-black) 0%, #1a1a1d 100%);
+  letter-spacing: 3px;
 }
 
 @keyframes logoGlow {
   0%, 100% {
-    filter: drop-shadow(0 2px 8px rgba(253, 198, 13, 0.4));
+    box-shadow: 
+      0 4px 15px rgba(253, 198, 13, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3);
   }
   50% {
-    filter: drop-shadow(0 4px 16px rgba(253, 198, 13, 0.7));
+    box-shadow: 
+      0 6px 25px rgba(253, 198, 13, 0.6),
+      inset 0 1px 0 rgba(255, 255, 255, 0.4);
   }
 }
 

@@ -74,20 +74,19 @@ function App() {
       <header className="App-header">
         <div className="header-content">
           <div className="header-top">
-            <img
-              src="/boc-logo.png"
-              alt="Bank of Ceylon Logo"
-              className="logo-image"
-            />
+            <div className="system-logo">
+              <span className="logo-icon">📁</span>
+              <span className="logo-text">Archive</span>
+            </div>
           </div>
           <div className="header-middle">
-            <h1 className="system-title">Loan File Locator System</h1>
-            <p className="system-subtitle">Quick access to loan file locations and customer information</p>
+            <h1 className="system-title">Document Locator System</h1>
+            <p className="system-subtitle">Quick access to file locations and document information</p>
           </div>
           <div className="header-right">
             <div className="branch-info">
-              <span className="branch-icon">📍</span>
-              <span>BOC - Vaddukoddai, Jaffna</span>
+              <span className="branch-icon">🏢</span>
+              <span>Archive Center</span>
             </div>
           </div>
         </div>
@@ -251,8 +250,8 @@ function App() {
 
       <footer className="App-footer">
         <div className="footer-content">
-          <p>© 2025 Bank of Ceylon. All rights reserved.</p>
-          <p className="footer-tagline">Trusted Banking Since 1939</p>
+          <p>📂 Secure Document Management System</p>
+          <p className="footer-tagline">Efficient • Accurate • Reliable</p>
         </div>
       </footer>
     </div>
