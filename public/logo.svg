@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Background -->
+  <rect width="200" height="200" fill="#fdc60d" rx="30"/>
+  
+  <!-- Border -->
+  <rect x="5" y="5" width="190" height="190" fill="none" stroke="#010104" stroke-width="6" rx="25"/>
+  
+  <!-- Folder Icon -->
+  <g transform="translate(100, 100)">
+    <!-- Folder back -->
+    <path d="M -50 -20 L -50 40 Q -50 45 -45 45 L 45 45 Q 50 45 50 40 L 50 -20 Q 50 -25 45 -25 L -45 -25 Q -50 -25 -50 -20 Z" 
+          fill="#010104"/>
+    
+    <!-- Folder tab -->
+    <path d="M -50 -25 L -50 -35 Q -50 -40 -45 -40 L -10 -40 L 0 -30 L 30 -30 Q 35 -30 35 -25 Z" 
+          fill="#010104"/>
+    
+    <!-- Inner highlight -->
+    <rect x="-40" y="-15" width="70" height="50" fill="#fdc60d" opacity="0.3" rx="5"/>
+    
+    <!-- Document lines -->
+    <line x1="-35" y1="-5" x2="20" y2="-5" stroke="#fdc60d" stroke-width="3" stroke-linecap="round"/>
+    <line x1="-35" y1="5" x2="30" y2="5" stroke="#fdc60d" stroke-width="3" stroke-linecap="round"/>
+    <line x1="-35" y1="15" x2="25" y2="15" stroke="#fdc60d" stroke-width="3" stroke-linecap="round"/>
+    <line x1="-35" y1="25" x2="15" y2="25" stroke="#fdc60d" stroke-width="3" stroke-linecap="round"/>
+  </g>
+</svg>
