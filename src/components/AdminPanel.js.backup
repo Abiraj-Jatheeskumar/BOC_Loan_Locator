@@ -1,0 +1,538 @@
+import React, { useState, useEffect } from 'react';
+import './AdminPanel.css';
+
+function AdminPanel() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [password, setPassword] = useState('');
+  const [activeTab, setActiveTab] = useState('loans'); // 'loans' or 'ranges'
+  
+  // Loans state
+  const [loans, setLoans] = useState([]);
+  const [newLoan, setNewLoan] = useState({ loan: '', name: '' });
+  const [editingLoan, setEditingLoan] = useState(null);
+  const [searchLoan, setSearchLoan] = useState('');
+  
+  // Ranges state
+  const [ranges, setRanges] = useState([]);
+  const [newRange, setNewRange] = useState({ start: '', end: '', location: '' });
+  const [editingRange, setEditingRange] = useState(null);
+  
+  // Admin password - change this to whatever you want
+  const ADMIN_PASSWORD = 'admin123';
+
+  useEffect(() => {
+    // Load data from localStorage or use default data
+    const storedLoans = localStorage.getItem('loansData');
+    const storedRanges = localStorage.getItem('rangesData');
+    
+    if (storedLoans) {
+      setLoans(JSON.parse(storedLoans));
+    } else {
+      // Load from default JSON files if no localStorage data
+      import('../data/loans.json').then(data => {
+        setLoans(data.default);
+        localStorage.setItem('loansData', JSON.stringify(data.default));
+      });
+    }
+    
+    if (storedRanges) {
+      setRanges(JSON.parse(storedRanges));
+    } else {
+      import('../data/ranges.json').then(data => {
+        setRanges(data.default);
+        localStorage.setItem('rangesData', JSON.stringify(data.default));
+      });
+    }
+  }, []);
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    if (password === ADMIN_PASSWORD) {
+      setIsAuthenticated(true);
+      setPassword('');
+    } else {
+      alert('Incorrect password');
+    }
+  };
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+  };
+
+  // LOAN OPERATIONS
+  const addLoan = () => {
+    if (!newLoan.loan || !newLoan.name) {
+      alert('Please fill all fields');
+      return;
+    }
+    
+    const loanNumber = parseInt(newLoan.loan, 10);
+    if (isNaN(loanNumber)) {
+      alert('Loan number must be numeric');
+      return;
+    }
+    
+    if (loans.find(l => l.loan === loanNumber)) {
+      alert('Loan number already exists');
+      return;
+    }
+    
+    const updatedLoans = [...loans, { loan: loanNumber, name: newLoan.name }]
+      .sort((a, b) => a.loan - b.loan);
+    
+    setLoans(updatedLoans);
+    localStorage.setItem('loansData', JSON.stringify(updatedLoans));
+    setNewLoan({ loan: '', name: '' });
+  };
+
+  const updateLoan = (index) => {
+    if (!editingLoan.loan || !editingLoan.name) {
+      alert('Please fill all fields');
+      return;
+    }
+    
+    const loanNumber = parseInt(editingLoan.loan, 10);
+    if (isNaN(loanNumber)) {
+      alert('Loan number must be numeric');
+      return;
+    }
+    
+    const updatedLoans = [...loans];
+    updatedLoans[index] = { loan: loanNumber, name: editingLoan.name };
+    updatedLoans.sort((a, b) => a.loan - b.loan);
+    
+    setLoans(updatedLoans);
+    localStorage.setItem('loansData', JSON.stringify(updatedLoans));
+    setEditingLoan(null);
+  };
+
+  const deleteLoan = (index) => {
+    if (window.confirm('Are you sure you want to delete this loan?')) {
+      const updatedLoans = loans.filter((_, i) => i !== index);
+      setLoans(updatedLoans);
+      localStorage.setItem('loansData', JSON.stringify(updatedLoans));
+    }
+  };
+
+  // RANGE OPERATIONS
+  const addRange = () => {
+    if (!newRange.start || !newRange.end || !newRange.location) {
+      alert('Please fill all fields');
+      return;
+    }
+    
+    const start = parseInt(newRange.start, 10);
+    const end = parseInt(newRange.end, 10);
+    
+    if (isNaN(start) || isNaN(end)) {
+      alert('Start and End must be numeric');
+      return;
+    }
+    
+    if (start > end) {
+      alert('Start cannot be greater than End');
+      return;
+    }
+    
+    const updatedRanges = [...ranges, { start, end, location: newRange.location }]
+      .sort((a, b) => a.start - b.start);
+    
+    setRanges(updatedRanges);
+    localStorage.setItem('rangesData', JSON.stringify(updatedRanges));
+    setNewRange({ start: '', end: '', location: '' });
+  };
+
+  const updateRange = (index) => {
+    if (!editingRange.start || !editingRange.end || !editingRange.location) {
+      alert('Please fill all fields');
+      return;
+    }
+    
+    const start = parseInt(editingRange.start, 10);
+    const end = parseInt(editingRange.end, 10);
+    
+    if (isNaN(start) || isNaN(end)) {
+      alert('Start and End must be numeric');
+      return;
+    }
+    
+    if (start > end) {
+      alert('Start cannot be greater than End');
+      return;
+    }
+    
+    const updatedRanges = [...ranges];
+    updatedRanges[index] = { start, end, location: editingRange.location };
+    updatedRanges.sort((a, b) => a.start - b.start);
+    
+    setRanges(updatedRanges);
+    localStorage.setItem('rangesData', JSON.stringify(updatedRanges));
+    setEditingRange(null);
+  };
+
+  const deleteRange = (index) => {
+    if (window.confirm('Are you sure you want to delete this range?')) {
+      const updatedRanges = ranges.filter((_, i) => i !== index);
+      setRanges(updatedRanges);
+      localStorage.setItem('rangesData', JSON.stringify(updatedRanges));
+    }
+  };
+
+  // IMPORT/EXPORT OPERATIONS
+  const exportData = (type) => {
+    const data = type === 'loans' ? loans : ranges;
+    const dataStr = JSON.stringify(data, null, 2);
+    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(dataBlob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${type}-${new Date().toISOString().split('T')[0]}.json`;
+    link.click();
+  };
+
+  const importData = (type, event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const data = JSON.parse(e.target.result);
+        
+        if (type === 'loans') {
+          if (window.confirm(`Import ${data.length} loans? This will replace current data.`)) {
+            const sortedData = data.sort((a, b) => a.loan - b.loan);
+            setLoans(sortedData);
+            localStorage.setItem('loansData', JSON.stringify(sortedData));
+            alert('Loans imported successfully!');
+          }
+        } else {
+          if (window.confirm(`Import ${data.length} ranges? This will replace current data.`)) {
+            const sortedData = data.sort((a, b) => a.start - b.start);
+            setRanges(sortedData);
+            localStorage.setItem('rangesData', JSON.stringify(sortedData));
+            alert('Ranges imported successfully!');
+          }
+        }
+      } catch (error) {
+        alert('Error parsing JSON file: ' + error.message);
+      }
+    };
+    reader.readAsText(file);
+    event.target.value = '';
+  };
+
+  const clearAllData = (type) => {
+    if (window.confirm(`Are you sure you want to delete ALL ${type}? This cannot be undone!`)) {
+      if (window.confirm('Really? This is your last chance!')) {
+        if (type === 'loans') {
+          setLoans([]);
+          localStorage.setItem('loansData', JSON.stringify([]));
+        } else {
+          setRanges([]);
+          localStorage.setItem('rangesData', JSON.stringify([]));
+        }
+        alert(`All ${type} deleted`);
+      }
+    }
+  };
+
+  // Filter loans based on search
+  const filteredLoans = loans.filter(loan => 
+    loan.loan.toString().includes(searchLoan) || 
+    loan.name.toLowerCase().includes(searchLoan.toLowerCase())
+  );
+
+  if (!isAuthenticated) {
+    return (
+      <div className="admin-login">
+        <div className="login-card">
+          <h1>🔐 Admin Login</h1>
+          <p>Enter password to access the admin panel</p>
+          <form onSubmit={handleLogin}>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter admin password"
+              className="login-input"
+              autoFocus
+            />
+            <button type="submit" className="login-button">Login</button>
+          </form>
+          <div className="login-info">
+            <p><small>Default password: admin123</small></p>
+            <p><small>Change password in AdminPanel.js (line 19)</small></p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="admin-panel">
+      <div className="admin-header">
+        <div className="admin-header-content">
+          <h1>⚙️ Admin Panel</h1>
+          <div className="admin-actions">
+            <button onClick={() => window.location.reload()} className="btn-secondary">← Back to Search</button>
+            <button onClick={handleLogout} className="btn-danger">Logout</button>
+          </div>
+        </div>
+      </div>
+
+      <div className="admin-tabs">
+        <button 
+          className={`tab ${activeTab === 'loans' ? 'active' : ''}`}
+          onClick={() => setActiveTab('loans')}
+        >
+          📋 Loans ({loans.length})
+        </button>
+        <button 
+          className={`tab ${activeTab === 'ranges' ? 'active' : ''}`}
+          onClick={() => setActiveTab('ranges')}
+        >
+          📦 Box Ranges ({ranges.length})
+        </button>
+      </div>
+
+      <div className="admin-content">
+        {activeTab === 'loans' ? (
+          <div className="loans-section">
+            <div className="section-header">
+              <h2>Manage Loans</h2>
+              <div className="section-actions">
+                <input
+                  type="file"
+                  id="import-loans"
+                  accept=".json"
+                  onChange={(e) => importData('loans', e)}
+                  style={{ display: 'none' }}
+                />
+                <label htmlFor="import-loans" className="btn-secondary">
+                  📥 Import JSON
+                </label>
+                <button onClick={() => exportData('loans')} className="btn-secondary">
+                  📤 Export JSON
+                </button>
+                <button onClick={() => clearAllData('loans')} className="btn-danger">
+                  🗑️ Clear All
+                </button>
+              </div>
+            </div>
+
+            <div className="add-form">
+              <h3>Add New Loan</h3>
+              <div className="form-row">
+                <input
+                  type="number"
+                  placeholder="Loan Number"
+                  value={newLoan.loan}
+                  onChange={(e) => setNewLoan({ ...newLoan, loan: e.target.value })}
+                />
+                <input
+                  type="text"
+                  placeholder="Customer Name"
+                  value={newLoan.name}
+                  onChange={(e) => setNewLoan({ ...newLoan, name: e.target.value })}
+                />
+                <button onClick={addLoan} className="btn-primary">Add Loan</button>
+              </div>
+            </div>
+
+            <div className="search-bar">
+              <input
+                type="text"
+                placeholder="🔍 Search by loan number or name..."
+                value={searchLoan}
+                onChange={(e) => setSearchLoan(e.target.value)}
+              />
+              {searchLoan && (
+                <button onClick={() => setSearchLoan('')} className="clear-search">×</button>
+              )}
+            </div>
+
+            <div className="data-table">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Loan Number</th>
+                    <th>Customer Name</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredLoans.map((loan, index) => (
+                    <tr key={index}>
+                      {editingLoan?.index === index ? (
+                        <>
+                          <td>
+                            <input
+                              type="number"
+                              value={editingLoan.loan}
+                              onChange={(e) => setEditingLoan({ ...editingLoan, loan: e.target.value })}
+                            />
+                          </td>
+                          <td>
+                            <input
+                              type="text"
+                              value={editingLoan.name}
+                              onChange={(e) => setEditingLoan({ ...editingLoan, name: e.target.value })}
+                            />
+                          </td>
+                          <td>
+                            <button onClick={() => updateLoan(index)} className="btn-success">Save</button>
+                            <button onClick={() => setEditingLoan(null)} className="btn-secondary">Cancel</button>
+                          </td>
+                        </>
+                      ) : (
+                        <>
+                          <td>{loan.loan}</td>
+                          <td>{loan.name}</td>
+                          <td>
+                            <button 
+                              onClick={() => setEditingLoan({ ...loan, index })} 
+                              className="btn-secondary"
+                            >
+                              Edit
+                            </button>
+                            <button onClick={() => deleteLoan(index)} className="btn-danger">Delete</button>
+                          </td>
+                        </>
+                      )}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              {filteredLoans.length === 0 && (
+                <div className="no-data">No loans found</div>
+              )}
+            </div>
+          </div>
+        ) : (
+          <div className="ranges-section">
+            <div className="section-header">
+              <h2>Manage Box Ranges</h2>
+              <div className="section-actions">
+                <input
+                  type="file"
+                  id="import-ranges"
+                  accept=".json"
+                  onChange={(e) => importData('ranges', e)}
+                  style={{ display: 'none' }}
+                />
+                <label htmlFor="import-ranges" className="btn-secondary">
+                  📥 Import JSON
+                </label>
+                <button onClick={() => exportData('ranges')} className="btn-secondary">
+                  📤 Export JSON
+                </button>
+                <button onClick={() => clearAllData('ranges')} className="btn-danger">
+                  🗑️ Clear All
+                </button>
+              </div>
+            </div>
+
+            <div className="add-form">
+              <h3>Add New Range</h3>
+              <div className="form-row">
+                <input
+                  type="number"
+                  placeholder="Start"
+                  value={newRange.start}
+                  onChange={(e) => setNewRange({ ...newRange, start: e.target.value })}
+                />
+                <input
+                  type="number"
+                  placeholder="End"
+                  value={newRange.end}
+                  onChange={(e) => setNewRange({ ...newRange, end: e.target.value })}
+                />
+                <input
+                  type="text"
+                  placeholder="Location (e.g., Box 1)"
+                  value={newRange.location}
+                  onChange={(e) => setNewRange({ ...newRange, location: e.target.value })}
+                />
+                <button onClick={addRange} className="btn-primary">Add Range</button>
+              </div>
+            </div>
+
+            <div className="data-table">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Start</th>
+                    <th>End</th>
+                    <th>Location</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {ranges.map((range, index) => (
+                    <tr key={index}>
+                      {editingRange?.index === index ? (
+                        <>
+                          <td>
+                            <input
+                              type="number"
+                              value={editingRange.start}
+                              onChange={(e) => setEditingRange({ ...editingRange, start: e.target.value })}
+                            />
+                          </td>
+                          <td>
+                            <input
+                              type="number"
+                              value={editingRange.end}
+                              onChange={(e) => setEditingRange({ ...editingRange, end: e.target.value })}
+                            />
+                          </td>
+                          <td>
+                            <input
+                              type="text"
+                              value={editingRange.location}
+                              onChange={(e) => setEditingRange({ ...editingRange, location: e.target.value })}
+                            />
+                          </td>
+                          <td>
+                            <button onClick={() => updateRange(index)} className="btn-success">Save</button>
+                            <button onClick={() => setEditingRange(null)} className="btn-secondary">Cancel</button>
+                          </td>
+                        </>
+                      ) : (
+                        <>
+                          <td>{range.start}</td>
+                          <td>{range.end}</td>
+                          <td>{range.location}</td>
+                          <td>
+                            <button 
+                              onClick={() => setEditingRange({ ...range, index })} 
+                              className="btn-secondary"
+                            >
+                              Edit
+                            </button>
+                            <button onClick={() => deleteRange(index)} className="btn-danger">Delete</button>
+                          </td>
+                        </>
+                      )}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              {ranges.length === 0 && (
+                <div className="no-data">No ranges found</div>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+
+      <div className="admin-footer">
+        <p>💡 Tip: All changes are automatically saved to your browser's storage</p>
+        <p>📁 Use Export to backup your data before making bulk changes</p>
+      </div>
+    </div>
+  );
+}
+
+export default AdminPanel;

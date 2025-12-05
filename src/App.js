@@ -1,24 +1,55 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import './App.css';
-import rangesData from './data/ranges.json';
-import loansData from './data/loans.json';
+import AdminPanel from './components/AdminPanel';
+import { getAllLoans, getAllRanges } from './firebase/firestoreService';
 
 function App() {
   const [loanNumber, setLoanNumber] = useState('');
   const [result, setResult] = useState(null);
   const [error, setError] = useState('');
+  const [currentPage, setCurrentPage] = useState('search'); // 'search' or 'admin'
+  const [loans, setLoans] = useState([]);
+  const [ranges, setRanges] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [dataError, setDataError] = useState(null);
+
+  // Load data from Firebase Firestore
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        setLoading(true);
+        setDataError(null);
+        
+        // Load loans and ranges from Firestore
+        const [loansData, rangesData] = await Promise.all([
+          getAllLoans(),
+          getAllRanges()
+        ]);
+        
+        setLoans(loansData);
+        setRanges(rangesData);
+        setLoading(false);
+      } catch (err) {
+        console.error('Error loading data:', err);
+        setDataError('Failed to load data from Firebase. Please check your connection.');
+        setLoading(false);
+      }
+    };
+    
+    loadData();
+  }, []);
 
   // Create a Map for O(1) loan lookup
   const loansMap = useMemo(() => {
     const map = new Map();
-    loansData.forEach(loan => {
+    loans.forEach(loan => {
       map.set(loan.loan, loan.name);
     });
     return map;
-  }, []);
+  }, [loans]);
 
-  // Get last updated timestamp from the data files
-  const lastUpdated = '2025-12-03T23:04:03+05:30';
+  // Get last updated timestamp
+  const lastUpdated = new Date().toISOString();
 
   const handleSearch = () => {
     // Reset previous results
@@ -42,7 +73,7 @@ function App() {
 
     // Find location from ranges
     let location = null;
-    for (const range of rangesData) {
+    for (const range of ranges) {
       if (loanNum >= range.start && loanNum <= range.end) {
         location = range.location;
         break;
@@ -69,6 +100,40 @@ function App() {
     }
   };
 
+  // Simple routing
+  if (currentPage === 'admin') {
+    return <AdminPanel />;
+  }
+
+  // Loading state
+  if (loading) {
+    return (
+      <div className="App">
+        <div className="loading-screen">
+          <div className="loading-spinner"></div>
+          <h2>Loading data from Firebase...</h2>
+          <p>Please wait</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Error state
+  if (dataError) {
+    return (
+      <div className="App">
+        <div className="error-screen">
+          <div className="error-icon-large">⚠️</div>
+          <h2>Connection Error</h2>
+          <p>{dataError}</p>
+          <button onClick={() => window.location.reload()} className="retry-button">
+            Retry
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="App">
       <header className="App-header">
@@ -88,6 +153,13 @@ function App() {
               <span className="branch-icon">🏢</span>
               <span>Archive Center</span>
             </div>
+            <button 
+              onClick={() => setCurrentPage('admin')} 
+              className="admin-link"
+              title="Admin Panel"
+            >
+              ⚙️ Admin
+            </button>
           </div>
         </div>
       </header>
@@ -210,14 +282,14 @@ function App() {
               <div className="stat-card">
                 <div className="stat-icon">📦</div>
                 <div className="stat-content">
-                  <strong>{rangesData.length}</strong>
+                  <strong>{ranges.length}</strong>
                   <span>Storage Boxes</span>
                 </div>
               </div>
               <div className="stat-card">
                 <div className="stat-icon">📋</div>
                 <div className="stat-content">
-                  <strong>{loansData.length.toLocaleString()}</strong>
+                  <strong>{loans.length.toLocaleString()}</strong>
                   <span>Loan Records</span>
                 </div>
               </div>

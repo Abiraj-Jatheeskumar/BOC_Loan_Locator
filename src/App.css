@@ -202,6 +202,29 @@ body {
   justify-self: end;
   display: flex;
   align-items: center;
+  gap: 1rem;
+}
+
+.admin-link {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.admin-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.5);
+}
+
+.admin-link:active {
+  transform: translateY(0);
 }
 
 .system-title {
@@ -992,6 +1015,275 @@ body {
 }
 
 /* Footer */
+/* Loading Screen - BOC Theme */
+.loading-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: #010104;
+  color: white;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Background animated pattern */
+.loading-screen::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 30%, rgba(253, 198, 13, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(253, 198, 13, 0.03) 0%, transparent 50%);
+  animation: pulseBackground 4s ease-in-out infinite;
+}
+
+@keyframes pulseBackground {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+/* Loading content container */
+.loading-screen > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* BOC Logo/Branding */
+.loading-screen::after {
+  content: '📁';
+  position: absolute;
+  font-size: 200px;
+  opacity: 0.03;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+  animation: rotateIcon 20s linear infinite;
+}
+
+@keyframes rotateIcon {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Spinner with BOC colors */
+.loading-spinner {
+  width: 80px;
+  height: 80px;
+  border: 5px solid rgba(253, 198, 13, 0.1);
+  border-top-color: #fdc60d;
+  border-right-color: #fdc60d;
+  border-radius: 50%;
+  animation: spin 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  margin-bottom: 2.5rem;
+  box-shadow: 
+    0 0 20px rgba(253, 198, 13, 0.2),
+    inset 0 0 20px rgba(253, 198, 13, 0.1);
+  position: relative;
+}
+
+/* Inner spinner effect */
+.loading-spinner::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 60%;
+  height: 60%;
+  border: 3px solid rgba(253, 198, 13, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: spin 0.8s linear infinite reverse;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading-screen h2 {
+  margin: 0 0 0.8rem 0;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #fdc60d;
+  text-shadow: 0 0 20px rgba(253, 198, 13, 0.3);
+  animation: fadeInOut 2s ease-in-out infinite;
+}
+
+@keyframes fadeInOut {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.loading-screen p {
+  margin: 0;
+  opacity: 0.7;
+  color: #e0e0e0;
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+}
+
+/* Error Screen - BOC Theme */
+.error-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: #010104;
+  color: white;
+  padding: 2rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Error background pattern */
+.error-screen::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 50% 50%, rgba(239, 68, 68, 0.1) 0%, transparent 50%);
+  animation: pulseError 3s ease-in-out infinite;
+}
+
+@keyframes pulseError {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+.error-screen > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Error icon with animation */
+.error-icon-large {
+  font-size: 5rem;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, #fdc60d 0%, #e6b30c 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shake 0.5s ease-in-out;
+  filter: drop-shadow(0 0 20px rgba(253, 198, 13, 0.3));
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-10px); }
+  75% { transform: translateX(10px); }
+}
+
+.error-screen h2 {
+  margin: 0 0 1.2rem 0;
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: #fdc60d;
+  text-shadow: 0 0 20px rgba(253, 198, 13, 0.3);
+}
+
+.error-screen p {
+  margin: 0 0 2.5rem 0;
+  font-size: 1.1rem;
+  max-width: 500px;
+  line-height: 1.8;
+  color: #e0e0e0;
+  opacity: 0.9;
+}
+
+/* Retry button with BOC theme */
+.retry-button {
+  padding: 14px 36px;
+  background: linear-gradient(135deg, #fdc60d 0%, #e6b30c 100%);
+  color: #010104;
+  border: none;
+  border-radius: 8px;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 
+    0 4px 15px rgba(253, 198, 13, 0.3),
+    0 0 30px rgba(253, 198, 13, 0.2);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.retry-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 
+    0 6px 20px rgba(253, 198, 13, 0.4),
+    0 0 40px rgba(253, 198, 13, 0.3);
+  background: linear-gradient(135deg, #e6b30c 0%, #fdc60d 100%);
+}
+
+.retry-button:active {
+  transform: translateY(-1px);
+}
+
+/* Mobile responsive for loading/error screens */
+@media (max-width: 768px) {
+  .loading-screen h2 {
+    font-size: 1.5rem;
+  }
+  
+  .loading-screen p {
+    font-size: 0.95rem;
+  }
+  
+  .loading-spinner {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .error-screen h2 {
+    font-size: 1.8rem;
+  }
+  
+  .error-screen p {
+    font-size: 1rem;
+    padding: 0 1rem;
+  }
+  
+  .error-icon-large {
+    font-size: 4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .loading-screen h2 {
+    font-size: 1.3rem;
+  }
+  
+  .loading-spinner {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .error-screen h2 {
+    font-size: 1.5rem;
+  }
+  
+  .error-icon-large {
+    font-size: 3.5rem;
+  }
+  
+  .retry-button {
+    padding: 12px 28px;
+    font-size: 15px;
+  }
+}
+
 .App-footer {
   background: var(--boc-white);
   padding: 1.5rem;

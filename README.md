@@ -2,14 +2,40 @@
 
 A production-ready React single-page application for Bank of Ceylon staff to quickly locate loan files by entering a loan number. The app displays the Box/Folder location and customer name instantly.
 
+## 🆕 NEW: Self-Service Admin Panel
+
+Clients can now manage all loan and box data themselves without code changes or backend infrastructure! 
+
+**Features:**
+- ✅ Add/Edit/Delete loans and box ranges
+- ✅ Search and filter data in real-time
+- ✅ Export/Import JSON for backups
+- ✅ Password-protected access
+- ✅ All changes save automatically in browser
+- ✅ Works on all devices (desktop, tablet, mobile)
+- ✅ Zero backend - pure client-side solution
+
+**Quick Access:** Click the "⚙️ Admin" button → Login with password → Start managing data!
+
+📖 **[Read Client Admin Guide](CLIENT_ADMIN_GUIDE.md)** for detailed instructions.
+
 ## Features
 
+### Search System
 - 🔍 **Fast Lookup**: O(1) customer name lookup using Map data structure
 - 📦 **Range-Based Location**: Automatically determines Box location from loan number ranges
 - ✅ **Input Validation**: Accepts only numeric loan numbers with helpful error messages
 - ♿ **Accessible**: Built with ARIA labels and semantic HTML
 - 📱 **Responsive**: Works on desktop, tablet, and mobile devices
 - 🎨 **Modern UI**: Clean, professional interface with smooth animations
+
+### Admin Panel
+- 🔐 **Secure**: Password-protected admin access
+- 📝 **CRUD Operations**: Full create, read, update, delete functionality
+- 💾 **LocalStorage**: All data persists in browser (no backend needed)
+- 📤 **Export/Import**: Backup and restore data via JSON files
+- 🔍 **Real-time Search**: Filter loans by number or name
+- 📊 **Live Stats**: See total loans and boxes at a glance
 
 ## Data
 
@@ -56,6 +82,30 @@ This creates an optimized production build in the `build/` folder.
    - Box Location (or "Location not found")
    - Last updated timestamp
 
+## Admin Panel Usage
+
+### For Clients
+
+1. Click **"⚙️ Admin"** button (top-right corner)
+2. Enter admin password (default: `admin123`)
+3. Choose between:
+   - **📋 Loans Tab**: Manage loan records
+   - **📦 Box Ranges Tab**: Manage box locations
+4. Use the interface to:
+   - Add new records
+   - Edit existing records
+   - Delete records
+   - Search/filter data
+   - Export data for backup
+   - Import data to restore
+
+### For Developers
+
+- **Change Password**: Edit `src/components/AdminPanel.js` line 19
+- **Customize UI**: Modify `src/components/AdminPanel.css`
+- **Technical Details**: See [TECHNICAL_DOCS.md](TECHNICAL_DOCS.md)
+- **Setup Guide**: See [SETUP.md](SETUP.md)
+
 ## Project Structure
 
 ```
@@ -63,15 +113,21 @@ loan-locator/
 ├── public/
 │   └── index.html
 ├── src/
+│   ├── components/
+│   │   ├── AdminPanel.js     # Admin interface (NEW)
+│   │   └── AdminPanel.css    # Admin styling (NEW)
 │   ├── data/
-│   │   ├── ranges.json      # Box ranges (32 boxes)
-│   │   └── loans.json        # Loan-to-customer mapping (556 records)
-│   ├── App.js                # Main application component
-│   ├── App.css               # Application styles
-│   ├── index.js              # React entry point
-│   └── index.css             # Global styles
+│   │   ├── ranges.json       # Box ranges (32 boxes)
+│   │   └── loans.json         # Loan-to-customer mapping (556 records)
+│   ├── App.js                 # Main application component (UPDATED)
+│   ├── App.css                # Application styles (UPDATED)
+│   ├── index.js               # React entry point
+│   └── index.css              # Global styles
+├── CLIENT_ADMIN_GUIDE.md      # User documentation (NEW)
+├── TECHNICAL_DOCS.md          # Developer documentation (NEW)
+├── SETUP.md                   # Deployment guide (NEW)
 ├── package.json
-├── test-data.md              # Test cases and validation
+├── test-data.md               # Test cases and validation
 └── README.md                 # This file
 ```
 
