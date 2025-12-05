@@ -153,7 +153,7 @@ function App() {
                 <div className="card-icon">📄</div>
                 <div className="card-content">
                   <span className="card-label">Loan Number</span>
-                  <span className="card-value">{result.loanNumber.toLocaleString()}</span>
+                  <span className="card-value">{result.loanNumber}</span>
                 </div>
               </div>
 
