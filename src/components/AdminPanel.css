@@ -45,6 +45,9 @@
   z-index: 1;
   border-top: 5px solid var(--boc-yellow);
   animation: slideUpFade 0.6s ease-out;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 @keyframes slideUpFade {
@@ -56,6 +59,30 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.back-to-search-btn {
+  background: transparent;
+  border: 2px solid var(--boc-yellow);
+  color: var(--boc-black);
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 20px;
+  align-self: flex-start;
+}
+
+.back-to-search-btn:hover {
+  background: var(--boc-yellow);
+  color: var(--boc-black);
+  transform: translateX(-3px);
+  box-shadow: 0 4px 12px rgba(253, 198, 13, 0.3);
 }
 
 .login-card h1 {

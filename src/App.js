@@ -102,7 +102,7 @@ function App() {
 
   // Simple routing
   if (currentPage === 'admin') {
-    return <AdminPanel />;
+    return <AdminPanel onBackToSearch={() => setCurrentPage('search')} />;
   }
 
   // Loading state

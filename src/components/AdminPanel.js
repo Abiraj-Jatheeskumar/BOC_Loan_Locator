@@ -15,7 +15,7 @@ import {
   clearAllRanges as clearAllRangesFromFirestore
 } from '../firebase/firestoreService';
 
-function AdminPanel() {
+function AdminPanel({ onBackToSearch }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
   const [activeTab, setActiveTab] = useState('loans');
@@ -369,6 +369,9 @@ function AdminPanel() {
     return (
       <div className="admin-login">
         <div className="login-card">
+          <button onClick={onBackToSearch} className="back-to-search-btn" title="Back to Search">
+            ← Back to Search
+          </button>
           <h1>🔐 Admin Login</h1>
           <p>Enter password to access the admin panel</p>
           <form onSubmit={handleLogin}>
